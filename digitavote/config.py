@@ -29,7 +29,7 @@ class Config:
 
     PHOTO_UPLOAD_PATH = os.path.join(base_dir, 'digitavote', 'static','photo')
     OTP_MAX_AGE = 15 * 60
-    RESET_TOKEN_EXPIRY_TIME = 24 * 60 * 60 
+    #RESET_TOKEN_EXPIRY_TIME = 24 * 60 * 60 
     
 class DevelopmentConfig(Config):
     SQLALCHEMY_DATABASE_URI = "sqlite:///" + os.path.join(base_dir, 'digitavote', 'database','data.sqlite')
