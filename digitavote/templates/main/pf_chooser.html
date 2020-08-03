@@ -1,0 +1,43 @@
+{% extends 'generic_base.html' %}
+{% from '_helpers.html' import link_btn %}
+
+{% block title_text %}Password Factory {% endblock title_text %}
+
+{% block generic_contents %}
+<div class="container text-center justify-content-center">
+    {% set 
+        generate_btn = {
+            "text" : "Generate",
+            "attribs" : {
+            "href" : url_for("main.gen_password"),
+            },
+            "class" : "btn-primary btn-sm",
+        }
+    %}
+    {% set 
+        reset_btn = {
+            "text" : "Reset",
+            "attribs" : {
+            "href" : url_for("main.reset_password"),
+            },
+            "class" : "btn-primary btn-sm",
+        }
+    %}
+
+    <div class="mt-4">
+        <h3 class="text-primary">Password Factory</h3>
+        <h5>Choose one of the options below</h5>
+        <div class="col-8 mx-auto">
+            <div class="row">
+                <div class="col-sm-6">
+                    {{link_btn(generate_btn)}}
+                </div>
+                <div class="col-sm-6">
+                    {{link_btn(reset_btn)}}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock generic_contents %}
+

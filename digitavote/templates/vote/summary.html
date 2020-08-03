@@ -1,0 +1,13 @@
+{% extends 'generic_base.html' %}
+{% from '_helpers.html' import link_btn, build_details %}
+{% block title_text %}{% if title %} {{title}} {% else %} Summary {% endif %} {% endblock title_text %}
+
+{% block generic_contents %}
+<div class="container justify-content-center text-center">
+    {% if title %}<h3 class="text-primary">{{title | upper}}</h3>{% endif %}
+
+    {{build_details(details)}}
+
+    {% if btn %}{{link_btn(btn)}}{% endif %}
+</div>  
+{% endblock generic_contents %}

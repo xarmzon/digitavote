@@ -1,0 +1,21 @@
+{% extends 'base_main.html' %}
+{% from '_helpers.html' import display_flash_message %}
+
+
+{% block main -%}
+<div class="container">
+    <div class="col-md-6 mx-auto my-5">
+        {% block generic_page %}
+        <section class="card card-body py-0 shadow">
+            <div class="container">
+                <div class="row justify-content-start">
+                    {% block generic_contents %}
+                   
+                    {% endblock generic_contents %}
+                </div>
+            </div>
+        </section>
+        {% endblock generic_page %}
+    </div>
+</div>
+{%- endblock main -%}

@@ -1,0 +1,15 @@
+{% extends 'generic_base.html' %}
+{% from '_helpers.html' import render_form, display_flash_message %}
+
+{% block title_text %} {% if title %} {{title}} {% else %} Login {% endif %} {% endblock title_text %}
+
+{% block generic_contents %}
+<div class="container text-center justify-content-center">
+    <h3 class="text-primary mb-4">{% if title %} {{title}} {% else %} Login {% endif %}</h3>
+    {% if title =="Voter's Login" %}
+        {{display_flash_message()}}
+    {% endif %}
+    {{render_form(form, s_btn = s_btn)}}
+</div>
+{% endblock generic_contents %}
+

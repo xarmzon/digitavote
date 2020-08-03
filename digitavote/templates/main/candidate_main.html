@@ -1,0 +1,107 @@
+{% extends 'base_main.html' %}
+{% from '_helpers.html' import render_form, render_field2, display_flash_message%}
+
+{% block title_text %}
+    {{current_user.user_data.full_name.split()[0]}}'s Profile
+{% endblock title_text %}
+
+
+{% block main -%}
+<div class="col-md-10 col-xl-5 mx-auto mt-5">       
+    <div class="row">       
+        <div class="col-md-5 col-xl-4 mx-auto">
+            <div class="card card-body shadow mb-3">
+                <h3 class="text-primary text-center">Candidate Profile</h3>
+                <div class="divider col-5 mx-auto" style="border-top: 3px solid rgba(14, 123, 101, 0.479);"></div>
+
+                <div class="text-center col-6 mx-auto mt-3">
+                    <img id="photo" src="{% if current_user.user_data.dp_fname %}{{url_for('static', filename='photo/'+current_user.user_data.dp_fname)}}{% else %}{{url_for('static', filename='photo/default_dp.png')}}{% endif %}" class="img-raised rounded-circle" alt="Candidate Photo" height="110" width="110"/>
+                    <form id="photo-form" method="POST" action="{{url_for('main.upload_dp')}}" enctype="multipart/form-data">
+                        <input type="hidden" name="from" value="{{url_for('main.candidate')}}" />
+                        <input type="hidden" name="csrf_token" value="{{csrf_token()}}" />
+                        <input type="file" id="photo-file" name="photo" class="d-none" />
+                    </form>
+                </div>
+
+                <div class="text-center">
+                    <p class="h4 text-primary2">
+                        <b>
+                        {% if current_user.nick_name %}
+                            {{current_user.nick_name}} 
+                        {% else %}
+                            {{current_user.user_data.full_name.split()[0]}}
+                        {% endif %}
+                        </b>
+                        <br/>
+                        {% if current_user.tag_name %}
+                        <span class="text-muted" style="font-size: 12px;">
+                            {{current_user.tag_name}}
+                        </span>
+                        {% endif %}
+                    </p>
+                </div>  
+                <div class="mt-4">
+                    <p class="py-0"><b>Full Name</b><br/>
+                        {{current_user.user_data.full_name}}
+                    </p>  
+                </div>  
+                <div class="mt-2">
+                    <p class="py-0"><b>Identification Number</b><br/>
+                        {{current_user.user_data.id_number}}
+                    </p>  
+                </div>  
+                <div class="mt-2">
+                    <p class="py-0"><b>E-Mail</b><br/>
+                        {{current_user.user_data.email}}
+                    </p>  
+                </div>  
+                <div class="row mt-2">
+                    <div class="col-6">
+                        <p class="py-0"><b>Level</b><br/>
+                            {{current_user.user_data.level}}
+                        </p>  
+                    </div>  
+                    <div class="col-6">
+                        <p class="py-0"><b>Phone</b><br/>
+                            {{current_user.user_data.phone}}
+                        </p>  
+                    </div>
+                </div>
+                <div class="row mt-2">
+                    <div class="col-6">
+                        <p class="py-0"><b>Post</b><br/>
+                            {{current_user.post.post_name}}
+                        </p>  
+                    </div>
+                    <div class="col-6">
+                        <p class="py-0"><b>Status</b><br/>
+                            {% if current_user.registered %}
+                                <span class="text-success">Registered</span>
+                            {% else %}
+                                <span class="text-danger">Payment Pending. Please make your payment</span>
+                                <a href="{{url_for('auth.payment')}}" class="text-primary2">
+                                    here
+                                </a>
+                            {% endif %}
+                        </p>  
+                    </div>
+                </div>
+                <div class="mt-2">
+                    <p class="py-0 text-center"><b>Agenda</b></p> 
+                    <p>{{current_user.agenda}}</p>
+                     
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-7 col-xl-8 mx-auto">
+            <div class="card card-body shadow mb-3">
+                <h3 class="text-primary text-center">Update Profile</h3>
+                <div class="divider col-4 mx-auto" style="border-top: 3px solid rgba(14, 123, 101, 0.479);"></div>
+                    {{render_form(form)}}
+            </div>
+        </div>
+        
+    </div>
+</div>
+{%- endblock main %}

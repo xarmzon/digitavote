@@ -1,0 +1,28 @@
+{% extends 'base_main.html' %}
+
+{% block title_text %}Home {% endblock title_text %}
+
+
+{% block header -%}
+{% set img_voter = url_for('static',  filename='img/voters_img.png') %}
+{{ super() }}
+<section class="fdb-block py-0 trans-background shadow">
+    
+    <div class="container bg-r py-5" style=" background: url('{{img_voter}}');">
+      <div class="row justify-content-start">
+        <div class="col-12 col-sm-10 col-md-8 text-center text-sm-left">
+          <h1 class="text-primary text-bolder">Voting made simple</h1>
+          <p class="lead">
+            Your opinions, your values, your vote.
+            Vote the candidates that matter to you, choose one of the options below to get started.
+          </p>
+          <p class="mt-4">
+            <a class="btn btn-outline-primary btn-sm" href="{{url_for('auth.otp_gen')}}"><i class="fa fa-envelope"></i> Generate OTP</a>
+            <a class="btn  btn-outline-primary btn-sm" href="{{url_for('auth.voters_login')}}"><i class="fa fa-user-circle"></i> Login</a>
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+{% endblock header -%}
+

@@ -1,0 +1,21 @@
+<p>Dear {{user.full_name}},</p>
+
+<p>
+    To reset your password, 
+    <a href="{{ url_for('main.reset_password_pass', token=token, _external=True) }}">
+    click here
+    </a>
+</p>
+<p>Alternatively, you can paste the following link in your browser's address bar:</p>
+
+<p>{{url_for('main.reset_password_pass', token=token, _external=True)}}</p>
+
+
+<p><em>If you have not requested a password, simply ignore this message</em></p>
+
+
+<p>Thank You.</p>
+
+Sincerely,
+
+<p>DigitaVote</p>

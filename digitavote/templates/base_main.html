@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block extra_styles -%}
+    <link href="{{ url_for('static', filename='css/froala_kit.min.css') }}" rel="stylesheet" />
+    <link href="{{ url_for('static', filename='css/material-kit.min.css') }}" rel="stylesheet" />
+    <link href="{{ url_for('static', filename='css/font-awesome.min.css') }}" rel="stylesheet" /> 
+    <link href="{{ url_for('static', filename='css/digitavote.css') }}" rel="stylesheet" />
+{% endblock extra_styles -%}
+
+
+{% set body_image = url_for('static', filename="img/bkg.png") %}
+{% block body_atrribs -%}
+style="background: url('{{ body_image }}');
+
+background-repeat: no-repeat;
+background-position: center;
+background-size: cover;"
+{%- endblock body_atrribs %}
+
+{% block header -%}
+{% set top_page_image = url_for('static',  filename='img/header_cover.jpg') %}
+    <section class="fdb-block mx-0 mt-0 trans-background header-filter" 
+            style="height: 375px ;background: url('{{top_page_image}}'); background-repeat: no-repeat;background-position: center;background-size: cover;">
+    </section>
+    
+{% endblock header -%}
+
+ {% block scripts %}
+    {{ super() }}
+    <script src="{{ url_for('static', filename='js/bootstrap-material-design.min.js') }}" type="text/javascript"></script>
+    <script src="{{ url_for('static', filename='js/material-kit.min.js') }}" type="text/javascript"></script>
+{% endblock scripts %}

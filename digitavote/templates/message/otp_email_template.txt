@@ -1,0 +1,15 @@
+Dear {{user.full_name}},
+
+Here is your OTP to DigitaVote
+
+OTP: {{otp}}
+
+
+If you have not requested OTP, simply ignore this message
+
+
+Thank You.
+
+Sincerely,
+
+DigitaVote

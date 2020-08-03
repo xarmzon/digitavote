@@ -1,0 +1,140 @@
+{% extends 'base_main.html' %}
+
+{% block title_text -%}
+    Poll 
+{% endblock title_text %}
+
+
+{% block nav_class  -%} 
+class="navbar fixed-top navbar-expand-lg" color-on-scroll="100" id="sectionsNav"
+{% endblock nav_class -%}>
+
+{% block header -%}
+<div style="height: 100px"> 
+</div>
+<div class="fdb-block container col-md-8 col-11 mx-auto py-2 shadow-sm">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 col-6 px-0">
+                <p class="text-primary"><b>ID:</b>  {{ voter.id_number}}</p>
+            </div>
+            <div class="col-md-6 col-6 px-0">
+                 <p class="text-primary text-right"> <b>Full Name:</b> {{voter.full_name}}</p>
+            </div>
+        </div>
+        <div class="text-center">
+        <p class="text-primary"> <b>Reference Number:</b><br/> {{voter.vrn.vrn}}</p>
+        <hr class="b-b"/>
+        <h3 class="text-primary">Deadline</h3>
+        <p class="text-primary2">{{voting_datetime['datetime']}}</p>
+        </div>
+    </div>
+</div>
+<div class="dropdown-divider"></div>
+{% endblock header -%}
+
+{% block main -%}
+<div class="col-md-8 col-xl-6 col-11 mx-auto py-3">
+        {% if data %}
+        <form action="" method="POST" id="form" novalidates>
+            <input type="hidden" name="csrf_token" value="{{csrf_token()}}" />
+            <div class="accordion" id="PollAccordion">
+            {% for d in data %}
+                <div class="card card-primary">
+                    <div class="px-3" id="heading{{loop.index}}">
+                    <h4 class="mb-0">
+                        <a href="javascripts:;" data-toggle="collapse" data-target="#collapse{{loop.index}}" aria-expanded="true" aria-controls="collapse{{loop.index}}">
+                        {{d['data']['name']}}
+                        </a>
+                    </h4>
+                        <hr class="b-b"/>
+                    </div>
+
+                    <div id="collapse{{loop.index}}" class="fade collapse {% if loop.index == 1%}show{% endif %}" aria-labelledby="heading{{loop.index}}" data-parent="#PollAccordion">
+                    <div class="card-body">
+                        <ul class="list-unstyled">
+                        {% for c in d['candidates'] %}
+                            <li>
+                                <div class="row">
+                                    <div class="col-md-2 col-2">
+                                        <img class="img-raised rounded-circle" 
+                                                src="
+                                                    {% if c['dp']%}
+                                                        {{url_for('static', filename='photo/'+c['dp'])}}
+                                                    {% else %}
+                                                        {{url_for('static', filename='photo/default_dp.png')}}
+                                                    {% endif %}
+                                                    " 
+                                        alt="DP" height="35px" width="35px"/>
+                                    </div>
+
+                                    <div class="col-md-8 col-8 pl-md-0 pl-4">
+                                        <span class="text-primary2">{{c['name']}}</span>
+                                        <br/>
+                                        
+                                        {% if c['nick_name'] %}
+                                        <span class="text-muted">{{c['nick_name']}}</span> |
+                                        {% endif %}
+                                         <a href="javascript:;" id="agenda{{loop.index}}{{c['id_number']}}" class="text-primary" data-toggle="modal" data-target="#agendaModal{{loop.index}}{{c['id_number']}}">Agenda</a>
+
+                                        <div class="modal fade" id="agendaModal{{loop.index}}{{c['id_number']}}" tabindex="-1" role="dialog" aria-labelledby="agendaModal{{loop.index}}Title{{c['id_number']}}" aria-hidden="true">
+                                            <div class="modal-dialog modal-dialog-scrollable" role="document">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title text-primary" id="agendaModal{{loop.index}}Title{{c['id_number']}}">{{c['name'].split()[0]}}'s Agenda</h5>
+                                                        
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <hr class="b-b"/>
+                                                        {% if c['agenda'] %}
+                                                            {{c['agenda']}}
+                                                        {% else %}
+                                                            <p>No agenda attached to this Candidate</p>
+                                                        {% endif %}
+                                                        {% if c['tag_name'] %}
+                                                           
+                                                            <div class="modal-footer">
+                                                                
+                                                                <span class="text-primary2"> <em>{{c['tag_name'] | title}}</em></span>
+                                                            </div>
+                                                        {% endif %}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                    <div class="col-md-2 col-2">
+                                        <div class="form-check mt-0">
+                                            <label class="form-check-label">
+                                                <input class="form-check-input" name="{{d['data']['post-id']}}" type="radio" value="{{c['id_number']}}" required/> 
+                                                <span class="circle">
+                                                    <span class="check"></span>
+                                                </span>
+                                            </label>
+                                        </div>
+
+                                    </div>
+
+                                </div>
+                            </li>
+                            <br/>
+                        {% endfor %}
+                        </ul>
+                    </div>
+                    </div>
+                </div>
+                <br/>
+            {% endfor %}
+            </div>
+            <div class="col-md-6 col-6 mx-auto text-center">
+                <button class="btn btn-primary" type="submit">
+                Submit
+                </button>
+            </div>
+        </form>
+        {% endif %}
+</div>
+
+{%- endblock main %}

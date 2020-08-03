@@ -1,0 +1,167 @@
+{% extends 'dashboard_base.html' %}
+{% from '_helpers.html' import render_form %}
+
+{% block title_text %}{{title}} - Dashboard {% endblock title_text %}
+
+{% block styles %}
+{{super()}}
+<style>
+.bootstrap-table .fixed-table-container .table thead th {
+    padding: 8px;
+}
+</style>
+{% endblock styles %}
+
+{% block main_content -%}
+
+<div class="row">
+    <div class="panel">
+        <div class="panel-body">
+            <div class="section-heading">
+                <h1 class="page-title text-center">{{title}}</h1>
+                <div class="table-responsive">
+                    <table id="list-table" data-toggle="table" class="display" style="width: 100%;">
+                            <!--Table head-->
+                            {% if title == "Voters List" %}
+                            <thead >
+                                <tr>
+                                <th>#</th>
+                                <th>ID</th>
+                                <th>Full Name</th>
+                                <th>Level</th>
+                                <th>Email</th>
+                                <th>Action</th>
+                                </tr>
+                            </thead>
+                            {% elif title == "Posts List"%}
+                            <thead>
+                                <tr>
+                                <th>#</th>
+                                <th>Post Name</th>
+                                <th>Description</th>
+                                <th>Level</th>
+                                <th>Payment</th>
+                                <th>Action</th>
+                                </tr>
+                            </thead>
+                            {% elif title == "Candidates List" %}
+                            <thead>
+                                <tr>
+                                <th>#</th>
+                                <th>ID</th>
+                                <th>Full Name</th>
+                                <th>Level</th>
+                                <th>Post</th>
+                                <th>Payment</th>
+                                <th>Action</th>
+                                </tr>
+                            </thead>
+                            {% elif title == "Votes List" %}
+                            <thead>
+                                <tr>
+                                <th rowspan="2">#</th>
+                                <th rowspan="2">Voters</th>
+                                <th colspan="{{total_posts}}">Candidates</th>
+                                </tr>
+                                <tr>
+                                {% for d in data["voted_posts"] %}
+                                    <th>{{d}}</th>
+                                {% endfor %}
+                                </tr>
+                            </thead>
+                            {% endif %}
+                            <!--Table head-->
+
+                            <!--Table body-->
+                            <tbody>
+                                {% if title == "Votes List" %}
+                                    {% set data =  data['voted_voters'] %}    
+                                {% endif %}
+
+                                {% for list in data %}
+                                <tr>
+                                <td>{{loop.index}}</td>
+                                
+                                {% if title == "Voters List" %}
+                                <td>{{list.id_number}}</td>
+                                <td>{{list.full_name}}</td>
+                                <td>{{list.level}}</td>
+                                <td>{{list.email}}</td>
+                                <td>
+                                    <div class="text-center">
+                                        <a href="{{url_for('dashboard.edit_voter', id=list.id)}}" class="btn btn-digitavote btn-sm">Edit</a>
+                                    </div>
+                                </td>
+                                {% elif title == "Posts List" %}
+                                <td>{{list.post_name}}</td>
+                                <td>{{list.description}}</td>
+                                <td>{{list.level}}</td>
+                                <td>{{list.payment}}</td>
+                                <td>
+                                    <div class="text-center">
+                                        <a href="{{url_for('dashboard.edit_post', id=list.id)}}" class="btn btn-digitavote btn-sm">Edit</a>
+                                    </div>
+                                </td>
+
+                                {% elif title == "Candidates List" %}
+                                <td>{{list.id_number}}</td>
+                                <td>{{list.user_data.full_name}}</td>
+                                <td>{{list.user_data.level}}</td>
+                                <td>{{list.post.post_name}}</td>
+                                <td>
+                                    {% if list.post.payment > 0%}
+                                        {% if list.payment.paid %}
+                                        <span class="text-success">Paid</span>
+                                        {% else %}
+                                        <span class="text-danger">Pending</span>
+                                        {% endif%}
+                                    {% else %}
+                                    <span class="text-info">No Payment</span>
+                                    {% endif%}
+                                </td>
+                                <td>
+                                    <div class="text-center">
+                                        <a href="{{url_for('dashboard.edit_candidate', id=list.id)}}" class="btn btn-digitavote btn-sm">Edit</a>
+                                    </div>
+                                </td>
+
+                                {% elif title == "Votes List" %}
+                                    <td>{{list['voter']}}</td>
+                                    {% for vc in list['candidates'] %}
+                                        <td>{{vc}}</td>
+                                    {% endfor %}
+                                {% endif %}
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                            <!--Table body-->
+                        </table>
+                        <!--Table-->
+                    </div>
+            </div>
+                
+        </div>
+    </div>
+</div>
+
+{%- endblock  main_content %}
+
+{% block scripts %}
+    {{super()}}
+    <script src="{{ url_for('static', filename='js/datatables.min.js') }}" type="text/javascript"></script>
+   <script>
+    $(document).ready(()=>{
+        {% if title == "Voters List" %}
+            $("#list-voters").addClass("active")
+        {% elif title == "Posts List" %}
+            $("#list-posts").addClass("active")
+        {% elif title == "Candidates List" %}
+            $("#list-candidates").addClass("active")
+
+        {% elif title == "Votes List" %}
+            $("#list-votes").addClass("active")
+        {% endif %}
+    });
+   </script>
+{% endblock scripts %}
+

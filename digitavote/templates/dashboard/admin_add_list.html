@@ -1,0 +1,85 @@
+{% extends 'dashboard_base.html' %}
+{% from '_helpers.html' import render_form %}
+
+{% block title_text %}{{title}} - Dashboard {% endblock title_text %}
+
+{% block styles %}
+{{super()}}
+<style>
+.bootstrap-table .fixed-table-container .table thead th {
+    padding: 8px;
+}
+</style>
+{% endblock styles %}
+
+{% block main_content -%}
+<div class="row">
+    <div class="col-md-6 col-md-offset-3 col-sm-6 col-sm-offset-3">
+        <div class="panel">
+            <div class="panel-body">
+                <div class="section-heading text-center">
+                    <h1 class="page-title">{{title}}</h1>
+                </div>
+                <p>{{render_form(form, s_btn=s_btn)}}</p>
+            </div>
+        </div>
+    </div>
+</div>
+{% if data %}
+<div class="row">
+    <div class="panel">
+        <div class="panel-body">
+            <div class="panel-content">
+                <h1 class="heading  text-center bg-primary" style="padding-top: 10px">Administrators List</h1>
+                    <div class="table-responsive">
+                        <table id="list-table" data-toggle="table" class="">
+                            <!--Table head-->
+                            <thead>
+                                <tr>
+                                <th>#</th>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Level</th>
+                                <th>Action</th>
+                                </tr>
+                            </thead>
+                            <!--Table head-->
+                            <!--Table body-->
+                            <tbody>
+                                {% for list_ in data %}
+                                <tr>
+                                <th>{{loop.index}}</th>
+                                <td>{{list_.full_name}}</td>
+                                <td>{{list_.email}}</td>
+                                <td>
+                                {% if list_.super_mod %}
+                                    {{'Super Moderator'}}
+                                {% else %}
+                                    {{'Moderator'}}
+                                {% endif %}
+                                </td>
+                                <td>
+                                    <div class="text-center">
+                                        <a href="{{url_for('dashboard.edit_admin', id=list_.id)}}" class="btn btn-digitavote btn-sm">Edit</a>
+                                    </div>
+                                </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                            <!--Table body-->
+                        </table>
+                        <!--Table-->
+                    </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
+
+
+{%- endblock  main_content %}
+
+{% block scripts %}
+    {{super()}}
+    <script src="{{ url_for('static', filename='js/datatables.min.js') }}" type="text/javascript"></script>
+{% endblock scripts %}

@@ -1,0 +1,65 @@
+{% extends 'base_main.html' %}
+{% from '_helpers.html' import render_form, render_field2, display_flash_message%}
+
+{% block title_text %}
+    {% if user.full_name %}
+        {{user.full_name.split()[0]}}
+    {% else %}
+        Administrator
+    {% endif %}'s Profile
+{% endblock title_text %}
+
+
+{% block main -%}
+<div class="col-md-10 col-xl-5 mx-auto mt-5">       
+    <div class="row">       
+        <div class="col-md-5 col-xl-4 mx-auto">
+            <div class="card card-body shadow mb-3">
+                <h3 class="text-primary text-center">Administrator's Profile</h3>
+                <div class="divider col-5 mx-auto" style="border-top: 3px solid rgba(14, 123, 101, 0.479);"></div>
+
+                <div class="text-center col-6 mx-auto mt-3">
+                    <img id="photo" src="{% if user.dp_fname %}{{url_for('static', filename='photo/'+user.dp_fname)}}{% else %}{{url_for('static', filename='photo/default_dp.png')}}{% endif %}" class="img-raised rounded-circle" alt="Administrator Photo" height="110" width="110"/>
+                    <form id="photo-form" method="POST" action="{{url_for('main.upload_dp')}}" enctype="multipart/form-data">
+                        <input type="hidden" name="from" value="{{url_for('dashboard.admin_profile')}}" />
+                        <input type="hidden" name="csrf_token" value="{{csrf_token()}}" />
+                        <input type="file" id="photo-file" name="photo" class="d-none" />
+                    </form>
+                </div>
+                <div class="mt-4">
+                    <p class="py-0"><b>Full Name</b><br/>
+                        {{user.full_name}}
+                    </p>  
+                </div>  
+                
+                <div class="mt-2">
+                    <p class="py-0"><b>E-Mail</b><br/>
+                        {{user.email}}
+                    </p>  
+                </div>  
+                <div class="row mt-2">
+                    <div class="col-6">
+                        <p class="py-0"><b>Level</b><br/>
+                            {{level_text}}
+                        </p>  
+                    </div>  
+                    <div class="col-6">
+                        <p class="py-0"><b>Phone</b><br/>
+                            {{user.phone}}
+                        </p>  
+                    </div>
+                </div>
+     
+            </div>
+        </div>
+
+        <div class="col-md-7 col-xl-8 mx-auto">
+            <div class="card card-body shadow mb-3">
+                <h3 class="text-primary text-center">Update Profile</h3>
+                <div class="divider col-4 mx-auto" style="border-top: 3px solid rgba(14, 123, 101, 0.479);"></div>
+                    {{render_form(form)}}
+            </div>
+        </div>
+    </div>
+</div>
+{%- endblock main %}

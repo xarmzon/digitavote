@@ -1,0 +1,61 @@
+.navbar-brand {
+    padding: 2px 2px;
+}
+
+.navbar-btn button {
+    color: #0E7B65;
+}
+.panel {
+    background-color: rgba(249, 249, 249, 0.91);
+    box-shadow: 0px 8px 10px -4px rgba(0, 0, 0, 0.15);
+}
+.panel-content .heading {
+    border-bottom: 1px solid rgba(12, 109, 90, 0.93);
+}
+.bg-primary {
+    background-color: #0C6D5A;
+}
+#main-content{
+    min-height: 95vh;
+}
+
+.btn-link {
+    color: #0C6D5A;
+}
+a:focus, a:hover {
+    text-decoration: none;
+    color: #06362D;
+}
+.navbar-default .navbar-nav > li > a {
+    color: #0C6D5A;
+}
+.btn-link:focus, .btn-link:hover {
+    text-decoration: none;
+    color: #06362D;
+    background-color: transparent;
+}
+
+.btn-digitavote {
+    color: #fff;
+    background-color: #0C6D5A;
+    border-color: rgba(6, 54, 45, 0.397);
+}
+
+.btn-digitavote:focus, .btn-digitavote:hover {
+    text-decoration: none;
+    color: #fff;
+    background-color: #06362D;
+}
+.bootstrap-table .fixed-table-container .table thead th .th-inner{
+    text-align: center !important;
+}
+.btn-default {
+    color: #f9f9f9;
+    background-color: #0c6d5a;
+    border-color: #f9f9f9;
+}
+.btn-default:hover, .btn-default:focus {
+    background-color: rgb(10, 82, 67);
+    border-color: #f9f9f9;
+    color: #f9f9f9;
+}

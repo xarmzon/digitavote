@@ -1,0 +1,12 @@
+{% extends 'dashboard_base.html' %}
+
+{% block active_dashboard -%}
+active
+{%- endblock active_dashboard %}
+
+{% block main_content -%}
+<div class="section-heading">
+    <h1 class="page-title">{{current_user}}</h1>
+</div>
+{%- endblock  main_content %}
+

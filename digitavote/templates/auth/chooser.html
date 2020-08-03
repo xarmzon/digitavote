@@ -1,0 +1,57 @@
+{% extends 'auth/login.html' %}
+{% from '_helpers.html' import link_btn %}
+
+
+{% block generic_contents %}
+<div class="container text-center justify-content-center">
+    {% set 
+        voter_login_btn = {
+            "text" : "Voters",
+            "attribs" : {
+            "href" : url_for("auth.voters_login"),
+            },
+            "class" : "btn-primary btn-sm",
+            "icon" : "fa fa-user-circle",
+        }
+    %}
+    {% set 
+        admin_login_btn = {
+            "text" : "Admin",
+            "attribs" : {
+            "href" : url_for("auth.admin_login"),
+            },
+            "class" : "btn-primary btn-sm",
+            "icon" : "fa fa-user-cog",
+        }
+    %}
+    {% set 
+        candidate_login_btn = {
+            "text" : "Candidate",
+            "attribs" : {
+            "href" : url_for("auth.candidate_login"),
+            },
+            "class" : "btn-primary btn-sm",
+            "icon" : "fa fa-id-card",
+        }
+    %}
+
+    <div class="mx-auto mt-4">
+        <h3 class="text-secondary">Choose one of the options below to login</h3>
+        
+        <div class="row">
+            <div class="col-sm-4">
+                 {{link_btn(voter_login_btn)}}
+            </div>
+            <div class="col-sm-4">
+                {{link_btn(admin_login_btn)}}
+            </div>
+            <div class="col-sm-4">
+                {{link_btn(candidate_login_btn)}}
+            </div>
+        </div>
+       
+        
+    </div>
+</div>
+{% endblock generic_contents %}
+

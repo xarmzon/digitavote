@@ -1,0 +1,26 @@
+{% extends 'base_main.html' %}
+{% from '_helpers.html' import render_form, render_field2, display_flash_message%}
+
+{% block title_text %}
+    {% if title %}
+        {{title}} 
+    {% else %}
+        Candidate
+    {% endif %} 
+{% endblock title_text %}
+
+{% block main -%}
+    {% if type_ %}
+        <div class="container mb-5 col-md-6 col-xl-3 col-12 mx-auto mt-5">
+            <div class="card card-body">
+        {% if type_ == "register" %}
+                <h3 class="text-primary text-center mb-4">Registration Form</h3>
+                {{render_form(form, s_btn = s_btn)}}
+        {% elif type_ == "login" %}
+                 <h3 class="text-primary text-center mb-4">{{title}}</h3>
+                {{render_form(form, s_btn = s_btn)}}
+        {% endif %}
+            </div>
+        </div>
+    {% endif %}
+{%- endblock main %}

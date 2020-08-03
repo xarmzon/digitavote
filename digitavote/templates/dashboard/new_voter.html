@@ -1,0 +1,81 @@
+{% extends 'dashboard_base.html' %}
+{% from '_helpers.html' import render_form %}
+
+{% block title_text %}New Voter - Dashboard {% endblock title_text %}
+
+{% block active_voters %}
+active
+{% endblock active_voters %}
+{% block active_new_voter -%}
+active
+{%- endblock active_new_voter %}
+
+{% block main_content -%}
+
+<div class="row">
+    <div class="col-md-6 col-md-offset-3 col-sm-6 col-sm-offset-3">
+        <div class="panel">
+            <div class="panel-body">
+                <div class="section-heading text-center">
+                    <h1 class="page-title">New Voter</h1>
+                </div>
+                <p>{{render_form(form, s_btn=s_btn)}}</p>
+            </div>
+            <div class="text-center">
+                <a id="voter-bulk-upload" href="javascript:;" class="btn btn-link">Bulk Upload</a>
+                <form id="voters-upload-form" method="POST" action="{{url_for('dashboard.upload_voter')}}" enctype="multipart/form-data">
+                        <input type="hidden" name="from" value="{{url_for('dashboard.add_voter')}}" />
+                        <input type="hidden" name="csrf_token" value="{{csrf_token()}}" />
+                        <input type="file" id="voter-file" name="voter-file" class="hidden" />
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="panel">
+        <div class="panel-body">
+            <div class="panel-content">
+                <h1 class="heading  text-center bg-primary" style="padding-top: 10px">Recent Added Voters</h1>
+                    <div class="table-responsive">
+                        <table data-toggle="table" class="">
+                            <!--Table head-->
+                            <thead>
+                                <tr>
+                                <th>#</th>
+                                <th>ID</th>
+                                <th>Full Name</th>
+                                <th>Level</th>
+                                <th>Email</th>
+                                <th>Action</th>
+                                </tr>
+                            </thead>
+                            <!--Table head-->
+                            <!--Table body-->
+                            <tbody>
+                                {% for voter in recent_voters['data'] %}
+                                <tr>
+                                <th>{{loop.index}}</th>
+                                <td>{{voter.id_number}}</td>
+                                <td>{{voter.full_name}}</td>
+                                <td>{{voter.level}}</td>
+                                <td>{{voter.email}}</td>
+                                <td>
+                                    <div class="text-center">
+                                        <a href="{{url_for('dashboard.edit_voter', id=voter.id)}}" class="btn btn-digitavote btn-sm">Edit</a>
+                                    </div>
+                                </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                            <!--Table body-->
+                        </table>
+                        <!--Table-->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{%- endblock  main_content %}
+

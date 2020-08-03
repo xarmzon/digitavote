@@ -1,0 +1,92 @@
+{% extends 'base_main.html' %}
+
+{% block title_text %}Live View {% endblock title_text %}
+
+{% block main -%}
+<div class="container my-4">
+    
+    <div class="col-md-6 col-xl-4 col-12 mx-auto">
+        {% if no_vote %}
+            <h1 class="text-center text-primary2">VOTING CLOSED</h1>
+        {% else %}
+            {% if data %}
+            <div class="card card-body text-center">
+                <h3 class="text-primary">Deadline</h3>
+                <p class="text-primary2">{{voting_datetime['datetime']}}</p>
+            </div>
+            <br/>
+            
+            <div class="accordion" id="LiveViewAccordion">
+                {% for item in data %}
+
+                <div class="card card-primary">
+                    <div class="px-3" id="heading{{loop.index}}" >
+                        <h4 class="mb-0" >
+                            <span class="float-right text-muted small">votes: {{item['post']['pcounts']}}</span>
+                            <a href="javascripts:;"  data-toggle="collapse" data-target="#collapse{{loop.index}}" aria-expanded="true" aria-controls="collapse{{loop.index}}">
+                                {{item['post']['name']}}
+                            </a>
+                            
+                        </h4>
+                        
+                        <hr class="b-b"/>
+                    </div>
+
+                    <div id="collapse{{loop.index}}" class="fade collapse {% if loop.index == 1%}show{% endif %}" aria-labelledby="heading{{loop.index}}" data-parent="#LiveViewAccordion">
+                        <div class="card-body">
+                            <ul class="list-unstyled">
+                            {% for c in item['candidates'] %}
+                                <li>
+                                    <div class="row">
+                                        <div class="col-md-2 col-2">
+                                            <img class="img-raised rounded-circle" 
+                                                    src="
+                                                        {% if c['dp']%}
+                                                            {{url_for('static', filename='photo/'+c['dp'])}}
+                                                        {% else %}
+                                                            {{url_for('static', filename='photo/default_dp.png')}}
+                                                        {% endif %}
+                                                        " 
+                                            alt="DP" height="35px" width="35px"/>
+                                        </div>
+
+                                        <div class="col-md-8 col-8 pl-md-0 pl-4">
+                                            <span class="text-primary2">{{c['cname']}}</span>
+                                            <br/>
+                                            
+                                            <div class="progress">
+                                                <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: {{c['vpercents']}}%;" aria-valuenow="{{c['vcounts']}}" aria-valuemin="0" aria-valuemax="{{item['post']['pcounts']}}">{{c['vpercents']}}%</div>
+                                            </div>
+
+                                        </div>
+
+                                        <div class="col-md-2 col-2 pt-2">
+                                            <span class="badge badge-primary2">{{c['vcounts']}}</span>
+                                        </div>
+
+                                    </div>
+                                </li>
+                                <br/>
+                            {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <br/>
+                {% endfor %}
+            </div> 
+
+        {% else %}
+            <h1 class="text-center text-primary2">No matching records found</h1>
+        {% endif %}
+
+        {% endif %}
+        
+        
+    </div>
+        
+</div>
+{% endblock main -%}
+
+
+

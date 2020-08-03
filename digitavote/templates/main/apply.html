@@ -1,0 +1,166 @@
+{% extends 'base_main.html' %}
+{% from '_helpers.html' import render_field2, display_flash_message%}
+{% block title_text %}Apply {% endblock title_text %}
+
+{% block main -%}
+
+<div class="container my-4">
+    {% if posts %}
+    <div class="row">
+        {% for post in posts %}
+            <div class="col-md-4 col-12 my-3">
+                <div class="card card-body h-100 shadow">
+                    <div class="text-center">
+                        <h2 class="pb-4">
+                            {{post.post_name | upper}}
+                        </h2>
+                        <p class="">
+                            {% set read_more_link = url_for('main.apply_post_details',id=post.id) %}
+                           {{post.description | limit_text(read_more=read_more_link)}}
+                        </p>
+                        <h1 class="h2 py-4 mb-4">&#8358;{{post.payment}}</p>
+                        <a href="{{url_for('auth.apply_details', id=post.id)}}" class="btn btn-primary">Apply</a>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+    {% elif post %}
+    <div class="col-md-6 col-xl-5 col-12 mx-auto my-5">
+            <div class="card card-body rshadow">
+                <h3 class="text-center mb-5">{{post.post_name}}</h3>
+                <div class="row">
+                    <div class="col-4 pr-0">
+                        <p class="text-bolder">
+                        Description
+                        </p>
+                    </div>
+                    <div class="col-8 pr-1">
+                        <p class="">{{post.description}}</p>
+                    </div>
+                </div>
+                <div class="row mt-3">
+                    <div class="col-4 pr-0">
+                        <p class="text-bolder">Level</p>
+                    </div>
+                    <div class="col-8 pr-0">
+                        <p class="">{{post.level}}</p>
+                    </div>
+                </div>
+                <div class="row mt-3">
+                    <div class="col-4 pr-0">
+                        <p class="text-bolder">Payment</p>
+                    </div>
+                    <div class="col-8 pr-0">
+                        <p class="">&#8358;{{post.payment}}</p>
+                    </div>
+                </div>
+                <div class="mt-3 text-center">
+                    <a href="{{url_for('auth.apply_details', id=post.id)}}" class="btn btn-primary">Apply Now</a>
+                </div>
+            </div>
+    </div>
+    {% elif apply_post%}
+        <div class="col-md-5 col-xl-4 col-12 mx-auto">
+            <div class="card card-body my-3">
+                <h2 class="text-center text-primary">Application</h2>
+                <div class="justify-content-center text-center">
+                    <form id="sform" method="post" action="" novalidate>
+                        {{form.hidden_tag()}}
+                    
+                        {{render_field2(form.post, field_attribs={"disabled":""})}}
+                        {{render_field2(form.id_number, label_attribs={"style":"position: relative;"})}}
+
+                        <div class="text-center">
+                            <button class="btn btn-outline-primary" type="submit">
+                               <i class="fa fa-search"></i> Search
+                            </button>
+                        </div>
+                    </form>
+                    <div class="text-center mb-4">
+                        <a href="javascript:;" onClick="openPost()" style="color: #0E7B65;">
+                            change post
+                        </a>
+                    </div>
+            
+                    <script type="text/javascript">
+                        
+                        function openPost(){
+                            var post = document.getElementById("post");
+                            post.removeAttribute("disabled");
+                            post.setAttribute("onchange", "changeURL()");
+                            
+                        }
+
+                        function changeURL(){
+                            var id = document.getElementById("post").value;
+                            window.history.replaceState({}, null, "/auth/apply/" + id + "/");
+                        }
+
+                    </script>
+                </div>
+                {% if details %}
+                <div class="container">
+                    <h2 class="text-center b-b">Details</h2>
+                    <div class="row mt-4">
+                        <div class="col-4 pr-0">
+                            <p class="text-bolder">
+                            ID
+                            </p>
+                        </div>
+                        <div class="col-8 pr-1">
+                            <p class="">{{details.id}}</p>
+                        </div>
+                    </div>
+                    <div class="row mt-2">
+                        <div class="col-4 pr-0">
+                            <p class="text-bolder">
+                            Full Name
+                            </p>
+                        </div>
+                        <div class="col-8 pr-1">
+                            <p class="">{{details.fullname}}</p>
+                        </div>
+                    </div>
+                    <div class="row mt-2">
+                        <div class="col-4 pr-0">
+                            <p class="text-bolder">
+                            Level
+                            </p>
+                        </div>
+                        <div class="col-8 pr-1">
+                            <p class="">{{details.level}}</p>
+                        </div>
+                    </div>
+                    <div class="row mt-2">
+                        <div class="col-4 pr-0">
+                            <p class="text-bolder">
+                                Post
+                            </p>
+                        </div>
+                        <div class="col-8 pr-1">
+                            <p class="">{{details.post}}</p>
+                        </div>
+                    </div>
+                    <div class="b-b"></div>
+                    <div class="text-center">
+                        {% if details['reg_closed'] %}
+                            <p class="text-danger">Sorry! registration closed</p>
+                        {% elif details["reg_not_start"] %}
+                            <p class="text-danger">Sorry! registration yet to start. Check back later</p>
+                        {% elif details["error"] %}
+                            <p class="text-danger">{{details.error}}</p>
+                        {% else %}
+                            <a href="{{url_for('auth.candidate_register')}}" class="btn btn-sm btn-primary btn-round">
+                                Register
+                            </a>
+                        {% endif %}
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    {% endif %}
+</div>
+
+{% endblock main -%}

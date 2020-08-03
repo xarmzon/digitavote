@@ -1,0 +1,73 @@
+{% extends 'dashboard_base.html' %}
+{% from '_helpers.html' import render_form %}
+
+{% block title_text %}New Post - Dashboard {% endblock title_text %}
+
+{% block active_posts %}
+active
+{% endblock active_posts %}
+{% block active_new_post -%}
+active
+{%- endblock active_new_post %}
+
+{% block main_content -%}
+
+<div class="row">
+    <div class="col-md-6 col-md-offset-3 col-sm-6 col-sm-offset-3">
+        <div class="panel">
+            <div class="panel-body">
+                <div class="section-heading text-center">
+                    <h1 class="page-title">New Post</h1>
+                </div>
+                <p>{{render_form(form, s_btn=s_btn)}}</p>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="panel">
+        <div class="panel-body">
+            <div class="panel-content">
+                <h1 class="heading  text-center bg-primary" style="padding-top: 10px">Recent Added Posts</h1>
+                    <div class="table-responsive">
+                        <table data-toggle="table" class="">
+                            <!--Table head-->
+                            <thead>
+                                <tr>
+                                <th>#</th>
+                                <th>Post Name</th>
+                                <th>Description</th>
+                                <th>Level</th>
+                                <th>Payment</th>
+                                <th>Action</th>
+                                </tr>
+                            </thead>
+                            <!--Table head-->
+                            <!--Table body-->
+                            <tbody>
+                                {% for post in recent_posts['data'] %}
+                                <tr>
+                                <th>{{loop.index}}</th>
+                                <td>{{post.post_name}}</td>
+                                <td>{{post.description}}</td>
+                                <td>{{post.level}}</td>
+                                <td>{{post.payment}}</td>
+                                <td>
+                                    <div class="text-center">
+                                        <a href="{{url_for('dashboard.edit_post', id=post.id)}}" class="btn btn-digitavote btn-sm">Edit</a>
+                                    </div>
+                                </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                            <!--Table body-->
+                        </table>
+                        <!--Table-->
+                    </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{%- endblock  main_content %}
+

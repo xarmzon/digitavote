@@ -1,0 +1,52 @@
+{% extends 'base_main.html' %}
+
+{% block extra_styles %}
+    {{ super() }}
+    <style>
+        .navbar{
+            background-color: rgba(240, 235, 235, 0.78) !important;
+        }
+    </style> 
+{% endblock extra_styles %}
+
+
+{% if title %}
+{% block title_text %}
+    {{title}}
+{% endblock title_text %}
+{% endif %}
+
+
+{% block nav_class  -%} 
+class="navbar fixed-top navbar-expand-lg" color-on-scroll="100" id="sectionsNav"
+{% endblock nav_class -%}>
+
+{% block header -%}
+{% endblock header -%}
+
+{% block main -%}
+<section class="fdb-block py-0 trans-background shadow">
+    <div class="container bg-r py-5">
+        {% block error_contents %}
+
+            {% if reason %}
+                <div class="row text-center justify-content-center mt-5">
+                    <div class="col-lg-5 col-md-6 mx-auto mb-3 pt-5">
+                        <p class="lead text-primary2">
+                            {{reason}}
+                        </p>
+                    </div>
+                </div>
+            {% endif %}
+            
+        {% endblock error_contents %}
+        <div class="row text-center justify-content-center">
+            <div class="col-lg-5 col-md-6 mx-auto">
+                <a href="{{ url_for('main.index')}}" class="btn btn-outline-primary btn-round">
+                    <i class="fa fa-home"></i> Go Back Home
+                </a>
+            </div>
+        </div>
+    </div>
+  </section>
+{% endblock main -%}

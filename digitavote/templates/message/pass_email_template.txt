@@ -1,0 +1,15 @@
+Dear {{user.full_name}}
+
+Here is your first login password to DigitaVote
+
+Password:</b> {{password}}
+
+
+If you have not requested a password, simply ignore this message
+
+
+Thank You.
+
+Sincerely,
+
+DigitaVote

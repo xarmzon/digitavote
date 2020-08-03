@@ -1,0 +1,92 @@
+@font-face {
+    font-family: "Fira Sans";
+    font-style: normal;
+    font-weight: 400;
+    src: url('../fonts/fira_sans/fira-sans-v10-latin-regular.eot'); /* IE9 Compat Modes */
+    src: local('Fira Sans Regular'), local('FiraSans-Regular'),
+         url('../fonts/fira_sans/fira-sans-v10-latin-regular.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+         url('../fonts/fira_sans/fira-sans-v10-latin-regular.woff2') format('woff2'), /* Super Modern Browsers */
+         url('../fonts/fira_sans/fira-sans-v10-latin-regular.woff') format('woff'), /* Modern Browsers */
+         url('../fonts/fira_sans/fira-sans-v10-latin-regular.ttf') format('truetype'), /* Safari, Android, iOS */
+         url('../fonts/fira_sans/fira-sans-v10-latin-regular.svg#FiraSans') format('svg'); /* Legacy iOS */
+}
+
+body {
+    font-family: "Fira Sans", "Helvetica";
+    height: 100%;
+}
+.trans-background{
+    background-color: rgba(248, 245, 244, 0.979);
+}
+.header-filter::before {
+    background: rgba(0, 0, 0, 0.33);
+}
+
+.navbar{
+    color: #C64721;
+}
+
+.text-primary2{
+    color: #0E7B65;
+}
+.btn.btn-secondary {
+    color: #fff;
+    background-color:  #0E7B65;
+    border-color:  rgb(14, 123, 101);
+}
+.text-bolder{
+    font-weight: 700; 
+}
+
+footer ul li a:hover {
+    color: rgba(236, 235, 235, 0.815);
+}
+
+footer p a:hover {
+    color: rgba(236, 235, 235, 0.815);
+}
+.rshadow{
+    box-shadow: 0px 6px 10px -4px rgba(0, 0, 0, 0.15);
+}
+
+.card {
+    margin-bottom: 0;
+    margin-top: 0; 
+}
+.r-border{
+    border: 1px solid black;
+    border-radius: 30px;
+}
+.b-b{
+    border-bottom: 1px solid rgba(14, 123, 101, 0.322);
+}
+.divider{
+    height: 0px;
+    overflow: hidden;
+    border-top: 1px solid #E9ECEF;
+}
+.divider-default{
+    border-color: rgba(14, 123, 101, 0.479);
+}
+.btn.btn-primary2 {
+    color: #FFF;
+    background-color:  #0E7B65;
+    border-color:  #0E7B65;
+    box-shadow: 0px 2px 2px 0px  rgba(14, 123, 101, 0.158);
+}
+.form-check .form-check-label .circle {
+    border: 1px solid #0E7B65;
+    top: 0px;
+}
+.form-check .form-check-label .circle {
+    top: -9px;
+}
+.modal-dialog .modal-body {
+    padding: 4px 24px 16px;
+}
+.progress {
+    height: 11px;
+}
+.badge.badge-primary2 {
+    background-color: #0E7B65;
+}

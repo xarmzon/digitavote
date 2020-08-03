@@ -1,0 +1,53 @@
+{% extends 'generic_base.html' %}
+{% block title_text %}Payment {% endblock title_text %}
+
+
+{% block generic_contents %}
+ <div class="container">
+    <h2 class="h3 text-center text-uppercase mt-5">Payment Details</h2>
+    <h5 class="text-center text-primary2 my-4">RRR:</h5>
+    <div class="col-md-9 col-xl-7 col-12 mx-auto mb-5">
+        <div class="divider divider-default mb-3"></div>
+        <div class="row">
+            <div class="col-5 col-xl-3 px-0">
+                <p>ID</p>
+            </div>
+            <div class="col-7 col-xl-9 px-0">
+                <p>{{current_user.user_data.id_number}}</p>
+            </div>
+            <div class="col-5 col-xl-3 px-0">
+                <p>Full Name</p>
+            </div>
+            <div class="col-7 col-xl-9 px-0">
+                <p>{{current_user.user_data.full_name}}</p>
+            </div>
+            <div class="col-5 col-xl-3 px-0">
+                <p>Level</p>
+            </div>
+            <div class="col-7 col-xl-9 px-0">
+                <p>{{current_user.user_data.level}}</p>
+            </div>
+            <div class="col-5 col-xl-3 px-0">
+                <p>Post</p>
+            </div>
+            <div class="col-7 col-xl-9 px-0">
+                <p>{{current_user.post.post_name}}</p>
+            </div>
+            <div class="col-5 col-xl-3 px-0">
+                <p>Amount</p>
+            </div>
+            <div class="col-7 col-xl-9 px-0">
+                <p>&#8358;{{current_user.post.payment}}</p>
+            </div>
+        </div>
+        <div class="col-12 text-center">
+            <p>
+                Being Payment for the post of {{current_user.post.post_name | upper}}
+            </p>
+        </div>
+        <div class="text-center mt-4">
+            <a href="" class="btn btn-primary2 btn-sm">Goto Remita</a>
+        </div>
+    </div>
+ </div>                 
+{% endblock generic_contents %}

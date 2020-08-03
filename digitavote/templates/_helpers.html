@@ -1,0 +1,191 @@
+{% macro render_form(form, form_id="form", s_btn = {}, 
+                        action_url="", 
+                        s_btn_cl="btn btn-primary",
+                        disable=false) -%}
+
+    <form action="{{action_url}}" id="{{form_id}}" method="POST" novalidate>
+        {% if disable %}
+            <fieldset disabled>
+        {% endif %}
+
+        {% if form.hidden_tag %}
+            {{ form.hidden_tag()}} 
+        {% endif %}
+
+        {% if caller %}
+            {{ caller() }}
+        {% else %}
+            {% for f in form %}
+                {% if f.type =="RadioField" %}
+
+                {% elif f.type == "BooleanField" %}
+
+                {% elif f.type == "FileField" %}
+
+                {% else %}
+                    {{ render_field(f)}}
+                {% endif %}
+            {% endfor %}
+        {% endif %}
+
+        <div class="mt-4 mb-0 text-center">
+            <button class="{{s_btn_cl}} {{s_btn.pop('class_', '')}}" type="submit" id="{{ s_btn.pop('id', 'submit1') }}">
+                <i class="{{s_btn.get('icon','')}}"></i> {{ s_btn.pop('value', 'Submit')}}
+            </button>
+        </div>
+        {% if disable %}
+            </fieldset>
+        {% endif %}
+    </form>
+{%- endmacro %}
+
+{% macro render_radio_field() -%}
+
+{%- endmacro %}
+
+{% macro render_field(field, label_visible=true) -%}
+{% if field.type != "HiddenField" and field.type != "CSRFTokenField"%}
+<div class="form-group {{ kwargs.pop('class_','')}} {% if field.errors %}has-error{% endif %}">
+    {% if label_visible %}
+        {{ field.label}} 
+    {% endif %}
+    {{ field(class_='form-control', **kwargs) }}
+    {% if field.errors %}
+        {% for error in field.errors %}
+            <p class="form-text text-danger">{{error}}</p>
+        {% endfor %}
+    {% endif %}
+</div>
+{% endif %}
+
+{%- endmacro %}
+
+{% macro render_form_select_field() -%}
+
+{%- endmacro %}
+
+{% macro display_flash_message(type="none") -%}
+    {% set messages_type = {"error": "danger", "success": "success", "warning": "warning"} %} 
+    {% if type == "none" %} 
+        {% with messages = get_flashed_messages(with_categories = true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ messages_type.get(category,messages_type['warning'])}} alert-dismissible fade show" role="alert">
+                        <p class="text-left text-white">{{ message }}</p>
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                {% endfor %}
+            {% endif %}
+    {% endwith %}
+    {% else %}
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-{{ messages_type.get(type,messages_type['warning'])}} alert-dismissible fade show" role="alert">
+                    <p class="text-left text-white">{{ message }}</p>
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+    {% endif %}
+{%- endmacro %}
+
+
+{% macro link_btn(btn) -%}
+   {% set data = btn["attribs"]%}
+    <div class="mb-3">
+        <a class="btn {% if btn["class"] %}{{btn["class"]}}{% endif %}" {% for key,value in data.items() %}{{key}} =  "{{value}}"{% endfor %}>
+        {% if btn["icon"] %}<i class="{{btn["icon"]}}"></i>{% endif %} {{btn["text"]}}
+        </a>
+    </div>
+{%- endmacro %}
+
+{% macro build_details(details) -%}
+   <div class="row mt-3">
+       <div class="container sm-6 mx-auto">
+        <img class="img-raised rounded-circle" height="100" width="100" src="{% if details['dp_name'] %}{{url_for('static', filename='photo/'+details['dp_name'])}}{% else %}{{url_for('static', filename='photo/default_dp.png')}}{% endif %}" alt="Voter's DP"/>
+       </div> 
+   </div>
+   <div class="row">
+        <div class="container sm-6 mx-auto text-center mt-0">
+                <h4 class="lead">{{details['head']}}</h4>
+        </div>
+    </div>
+   {% for data in details['body'] %}
+        <div class="row">
+            <div class="container sm-6 mx-auto text-center">
+                <p>{{data}}</p>
+            </div>
+        </div>
+   {% endfor %}
+   
+   <div class="row">
+   </div>
+{%- endmacro %}
+
+{% macro toastr_flash_message() -%}
+    {% with flash_messages = get_flashed_messages(with_categories=true) %}
+        {% if flash_messages %}
+            <script type="text/javascript">
+                toastr.options = {
+                    "closeButton": true,
+                    "newestOnTop": true,
+                    "progressBar": true,
+                    "positionClass": "toast-bottom-left",
+                    "timeOut": "8000",
+                    "extendedTimeOut": "10000",
+                    "showEasing": "swing",
+                    "hidedEasing": "linear",
+                    "showMethod": "fadeIn",
+                    "hideMethod": "fadeOut",
+                    "preventDuplicates": true,
+                };
+                {% for category, message  in flash_messages %}
+                    {% if category == 'success' %}
+                        toastr.success("{{message}}")
+                    {% elif category == "error"%}
+                        toastr.error("{{message}}")
+                    {% elif category == "info"%}
+                        toastr.info("{{message}}")
+                    {% else %}
+                        toastr.warning("{{message}}")
+                    {% endif %}
+                {% endfor %}
+            </script>
+        {% endif %}
+    {% endwith %}
+{%- endmacro %}
+
+{% macro render_field2(field, show_label=true, type="input", label_attribs={}, field_attribs={}) -%}
+    {% set control1 = ['input', 'textarea', 'select', 'file'] %}
+    {% set control2 = ['radio', 'checkbox'] %}
+    {% if  type in control1%}
+        <div class="form-group bmd-form-group {% if field.errors %}has-error{% endif %}">
+            {% if show_label %}
+                 {{field.label(**label_attribs)}}  
+            {% endif %}
+            {% if type == 'file' %}
+                {{field(class="form-control-file",**field_attribs)}}
+            {% else %}
+                {{field(class="form-control",**field_attribs)}}
+            {% endif %}
+            
+    {% elif type in control2%}
+        <div class="form-check {% if field.errors %}has-error{% endif %}">
+        {{field(class="form-check-input",**field_attribs)}}
+        {% if show_label %}
+            {{field.label(class="form-check-label",**label_attribs)}}  
+        {% endif %}
+    {% endif %} 
+        {% if field.errors %}
+            {% for error in field.errors %}
+                <p class="form-text text-danger">{{error}}</p>
+            {% endfor %}
+        {% endif %} 
+        </div>
+{%- endmacro %}
